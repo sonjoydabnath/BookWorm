@@ -1,17 +1,16 @@
 package main
 
 import (
-	"github.com/sonjoydabnath/BookWorm/controller"
 	"log"
-	"github.com/sonjoydabnath/BookWorm/model/dbcon"
 	"net/http"
-	"github.com/sonjoydabnath/BookWorm/view"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
+	"github.com/sonjoydabnath/BookWorm/controller"
+	"github.com/sonjoydabnath/BookWorm/model/configs"
+	"github.com/sonjoydabnath/BookWorm/model/dbcon"
+	"github.com/sonjoydabnath/BookWorm/view"
 )
-
-
 
 //html page handler
 /*func HtmlHandler() {
@@ -55,7 +54,6 @@ func HtmlHandlerMux() {
 	http.Handle("/uploads/", http.StripPrefix("/uploads/", http.FileServer(http.Dir("uploads"))))    //file server for raw file serving inside html
 	http.Handle("/resource/", http.StripPrefix("/resource/", http.FileServer(http.Dir("resource")))) //file server for raw file serving inside html
 
-
 	router.HandleFunc("/", controller.Home)
 	router.HandleFunc("/login", controller.Login)
 	router.HandleFunc("/logout", controller.Logout)
@@ -89,16 +87,21 @@ func HtmlHandlerMux() {
 	*/
 }
 
-
 var router = mux.NewRouter()
 
 func main() {
+
+	Config := configs.LoadConfiguration("config.json")
+
 	view.Init()
-	dbcon.DbConnection()
+
+	dbcon.DbConnection(Config)
+
 	HtmlHandlerMux()
+
 	//creating server
-	log.Println("Server runing at port 8080")
-	err := http.ListenAndServe(":8080", nil)
+	log.Println("Server runing! go to", Config.Server.Host+":"+Config.Server.Port)
+	err := http.ListenAndServe(Config.Server.Host+":"+Config.Server.Port, nil)
 	if err != nil {
 		log.Println(err)
 	}
