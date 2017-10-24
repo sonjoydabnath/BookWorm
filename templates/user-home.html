@@ -1,0 +1,68 @@
+{{define "admin-home"}}
+{{template "header"}}
+{{template "nav-auth"}}
+<center><h1><b><font color="purple">Welcome To Home!!!</font></b></h1></center>
+
+<center> <h3><b><font colour="green"> <a href="/un-published-book">1. ALL Unpublished Book </a> </font></b></h3></center><br>
+<center> <h3><b><font colour="green"> <a href="/publishedbook">2. Published Book List</a></font> </b></h3></center> <br>
+<center> <h3><b><font colour="green"><a href="/my-published-book">3. My Published Book</a></font> </b></h3></center> <br>
+<center> <h3><b><font colour="green"><a href="/publish-new-book">4. Publish A New Book</a></font> </b></h3></center> <br>
+<center> <h3><b><font colour="green"><a href="/my-un-published-book"> 5. My Book Waiting For Admin Approval</a></font> </b></h3></center> <br>
+<center> <h3><b><font colour="green"><a href="/user-list">6.User List</a></font> </b></h3></center><br>
+{{template "footer"}}
+{{end}}
+
+
+
+{{define "publisher-home"}}
+{{template "header"}}
+{{template "nav-auth"}}
+<center><h1><b><font color="purple">Welcome To Home!!!</font></b></h1></center>
+
+<center> <h3><b><font colour="green"><a href="/publishedbook">1. Published Book List</a></font> </b></h3></center><br><br>
+<center> <h3><b><font colour="green"><a href="/my-published-book">2. My Published Book</a></font> </b></h3></center><br><br>
+<center> <h3><b><font colour="green"><a href="/publish-new-book">3. Publish A New Book</a></font> </b></h3></center><br><br>
+<center> <h3><b><font colour="green"><a href="/my-un-published-book">4. My Book Waiting For Admin Approval </a><br><br>
+
+<h3>My subscription list </h3> <br><br>
+<table>
+  {{if .Books}} {{range .Books}}
+    <tr>
+      <td> <a href="/view-book?book={{.BookId}}"> {{.Title}} </a> </td>
+
+      <td> Rating: {{.AvrgRating}} </td>
+      <td> <img src="/uploads/CoverPhoto/{{.Cover}}" height="42" width="42" > </td>
+    </tr>
+  {{end}} {{else}}
+  <b> No subscription yet</b>
+  {{end}}
+</table>
+</body>
+</html>
+{{template "footer"}}
+{{end}}
+
+
+
+{{define "member-home"}}
+{{template "header"}}
+{{template "nav-auth"}}
+<center><h1><b><font color="purple">Welcome To Home!!!</font></b></h1></center>
+
+<center> <h3><b><font colour="green"><a href="/publishedbook"> Published Book List</a></font> </b></h3></center><br><br>
+
+<h3>My subscription list </h3> <br><br>
+<table>
+  {{if .Books}} {{range .Books}}
+    <tr>
+      <td> <a href="/view-book?book={{.BookId}}"> {{.Title}} </a> </td>
+
+      <td> Rating: {{.AvrgRating}} </td>
+      <td> <img src="/uploads/CoverPhoto/{{.Cover}}" height="42" width="42" > </td>
+    </tr>
+  {{end}}{{else}}
+  <p> No subscription yet</p>
+  {{end}}
+
+{{template "footer"}}
+{{end}}

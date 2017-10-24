@@ -1,0 +1,26 @@
+{{define "publish-new-book"}}
+{{template "header"}}
+{{template "nav-auth"}}
+<center>
+<h2>{{.Message}}</h2><br>
+  <h3>Request to publish a book</h3><br>
+<form enctype="multipart/form-data" action="publish-new-book" method="post">
+
+<b> Title:</b> <input type = "text" name = "title" placeholder="Book title"><br><br>
+
+ <b>Description:</b> <input type = "text" name = "description" placeholder="Book description"><br><br>
+
+  <b> Upload cover photo</b><br><br>
+   <input type="file" name="cover_photo"  /><br><br>
+
+<b>ISBN: </b><input type = "text" name = "isbn" placeholder="Isbn Number"><br><br>
+
+  <b> Upload Pdf file</b><br><br>
+          <input type="file" name="pdf" /><br><br>
+
+
+          <input type="submit" value="upload file" />
+      </form>
+</center>
+{{template "footer"}}
+{{end}}

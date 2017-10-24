@@ -1,0 +1,77 @@
+{{define "adminreviewbook"}}
+{{template "header"}}
+{{template "nav-auth"}}
+
+ <center> <h1>Admin review for this book</h1>
+
+  <table border="10">
+  <tr>
+  <th><center><b>Cover</b></center></th>
+  <th><center><b>Title</center></b></th>
+  <th><center><b>Publisher Name</b></center></th>
+  <th><center><b>Description</b></center></th>
+  </tr>
+      <tr>
+        <td> <img src="/uploads/CoverPhoto/{{.Book1.Cover}}" height="100" width="100" > </td>
+        <td> <center>{{.Book1.Title}} </center> </td>
+        <td> <center>{{.Book1.PubName}} </center></td>
+        <td> <center>{{.Book1.Description}} </center></td>
+
+      </tr>
+  </table>
+  </br>
+
+    <form action = "/read-and-approve?book={{.Book1.BookId}}" method = POST>
+        <input type = submit name = "Read" value = "Read" class="btn btn-default">
+    </form>
+    </br>
+    <form action = "/send-notification?book={{.Book1.BookId}}" method = POST>
+        <input type = submit  value = "Send Notification" >
+    </form>
+    </br>
+    <form action = "/approve-book?book={{.Book1.BookId}}" method = POST>
+        <input type = submit name = "Approve Now" value="Approve Now" class="btn btn-info">
+    </form>
+    <br>
+    <form action = "/reject?book={{.Book1.BookId}}" method = POST>
+        <input type = submit name = "Reject" Value = "Reject" class="btn btn-danger" >
+    </form>
+    </center>
+
+
+
+{{template "footer"}}
+{{end}}
+
+{{define "send-noti"}}
+{{template "header"}}
+{{template "nav-auth"}}
+
+ <center> <h1>Admin review for this book</h1>
+
+  <table border="10">
+  <tr>
+  <th><center><b>Cover</b></center></th>
+  <th><center><b>Title</center></b></th>
+  <th><center><b>Publisher Name</b></center></th>
+  <th><center><b>Description</b></center></th>
+  </tr>
+      <tr>
+        <td> <img src="/uploads/CoverPhoto/{{.Book1.Cover}}" height="100" width="100" > </td>
+        <td> <center>{{.Book1.Title}} </center> </td>
+        <td> <center>{{.Book1.PubName}} </center></td>
+        <td> <center>{{.Book1.Description}} </center></td>
+
+      </tr>
+  </table>
+  </br>
+
+    <form action = "/post-notification?book={{.Book1.BookId}}" method = POST>
+        <input type="text" name = "noti" placeholder="Write notification">
+        <input type = submit name = "Post Notification" value = "Post Notification" class="btn btn-default">
+    </form>
+
+
+
+{{template "footer"}}
+{{end}}

@@ -1,0 +1,18 @@
+{{define "update-book"}}
+{{template "header"}}
+{{template "nav-auth"}}
+
+  Edit book according to Admin notification
+<br><br>
+  <form  enctype="multipart/form-data" action="/update-book?book={{.Book1.BookId}}" method="POST">
+     Update cover photo<br>
+     <input type="file" name="cover_photo"  /><br><br>
+     Update pdf file<br>
+     <input type="file" name="pdf"  /><br><br>
+     <br>
+     {{.Book1.Title}}: <input type = "text" name = "title" placeholder="New Book Title"><br><br>
+     {{.Book1.Description}}: <input type = "text" name = "description" placeholder="New Description"><br><br>
+    <input type="submit" value="submit" />
+  </form>
+{{template "footer"}}
+{{end}}

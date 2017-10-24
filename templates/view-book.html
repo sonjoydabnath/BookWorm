@@ -1,0 +1,70 @@
+{{define "view-book"}}
+{{template "header"}}
+{{template "nav-auth"}}
+
+<center>
+<h1> Book view</h1>
+</center>
+
+<center>
+  <table>
+
+      <tr>
+        <td>COVER: <img src="/uploads/CoverPhoto/{{.Book1.Cover}}" height="42" width="42" > </td>
+        <td>Title: {{.Book1.Title}}  </td>
+        <td>Publisher: {{.Book1.PubName}} </td>
+        <td> Description: {{.Book1.Description}} </td>
+        <td> ISBN: {{.Book1.Isbn}} </td>
+        <td> Rating: {{.Book1.AvrgRating}} </td>
+      </tr>
+
+  </table>
+</center>
+
+  {{if .Read}}
+  <form action = "/view-book?book={{.Book1.BookId}}" method = POST>
+      <input type="hidden" name="read" value="read">
+      <input type = submit  value="Read">
+  </form>
+  {{end}}
+  {{if .Unpub}}
+  <form action = "/view-book?book={{.Book1.BookId}}" method = POST>
+      <input type="hidden" name="unpub" value="unpub">
+      <input type = submit  value="Unpublish Now">
+  </form>
+  {{end}}
+
+  {{if .Sub}}
+  <form action = "/view-book?book={{.Book1.BookId}}" method = POST>
+      <input type="hidden" name="sub" value="sub">
+      <input type = submit  value="Subscribe Now">
+  </form>
+  {{end}}
+
+  {{if .Unsub}}
+  <form action = "/view-book?book={{.Book1.BookId}}" method = POST>
+      <input type="hidden" name="unsub" value="unsub">
+      <input type = submit  value="Unsubscribe Now">
+  </form>
+  {{end}}
+
+  <br><br>
+
+  <form enctype="multipart/form-data" action="/view-book?book={{.Book1.BookId}}" method = POST>
+    Rating: <input type="text" name="rating" placeholder="rating 1 to 5">
+    Review: <input type="text" name="review" placeholder="Write review" >
+    <input type="hidden" name="review-button" value="review-button">
+    <input type = submit  value="Post Review">
+  </form>
+
+  <br>
+
+  <br>
+  <h4>Rating and Reviews:</h4>
+  {{if .RatRev}} {{range .RatRev}}
+    <p> Reader  <b> {{.UserName}}: </b> Rated this book {{.Rating}} out of 5 </p>
+    <p> {{.Review}} </p>
+  {{end}}{{end}}
+
+  {{template "footer"}}
+  {{end}}

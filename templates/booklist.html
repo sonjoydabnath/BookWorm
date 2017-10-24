@@ -1,0 +1,53 @@
+{{define "book-list"}}
+{{template "header"}}
+{{template "nav-auth"}}
+<div class="container">
+  <center><h2>Book List</h2></center>
+  <form action = "/publishedbook" method = "POST">
+    Sort by
+    {{if eq "Title" .Message}}
+    <input type="radio" name="Sortby" value="Date"> Date added &nbsp
+      <input type="radio" name="Sortby" value="Title" checked > Book Title &nbsp
+      <input type="radio" name="Sortby" value="Rating"> Rating &nbsp
+    {{else if eq "Rating" .Message}}
+    <input type="radio" name="Sortby" value="Date"> Date added &nbsp
+      <input type="radio" name="Sortby" value="Title" > Book Title &nbsp
+      <input type="radio" name="Sortby" value="Rating" checked> Rating &nbsp
+    {{else}}
+    <input type="radio" name="Sortby" value="Date" checked> Date added &nbsp
+      <input type="radio" name="Sortby" value="Title" > Book Title &nbsp
+      <input type="radio" name="Sortby" value="Rating"> Rating &nbsp
+    {{end}}
+    <input type="submit" name="Sort" value="Sort Books">
+  </form>
+  <form action="/publishedbook" method="POST">
+    <input type="text" name="Keyword" placeholder="Enter Search Keyword"> &nbsp <input type="submit" name="submit" value="Search">
+  </form>
+  <br>
+  <table class="table" border="5">
+    {{if .Books}}
+    <thead>
+      <tr>
+        <th>Cover</th>
+        <th>Title</th>
+        <th>Publisher name</th>
+        <th>Rating</th>
+      </tr>
+    </thead>
+    {{end}}
+    <tbody>
+      {{if .Books}} {{range .Books}}
+      <tr>
+        <td><img src="/uploads/CoverPhoto/{{.Cover}}" height="300" width="200" ></img></td>
+        <td><a href="/view-book?book={{.BookId}}">{{.Title}}</a></td>
+        <td> Publisher: <a href="/publishedbook?pid={{.PubId}}"> {{.PubName}} </a> </td>
+        <td>Rating: {{.AvrgRating}}</td>
+      </tr>
+      {{end}} {{else}}
+      <p> No book published yet! </p>
+      {{end}}
+    </tbody>
+  </table>
+</div>
+{{template "footer"}}
+{{end}}

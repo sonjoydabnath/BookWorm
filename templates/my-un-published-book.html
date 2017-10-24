@@ -1,0 +1,27 @@
+{{define "my-un-published-book"}}
+{{template "header"}}
+{{template "nav-auth"}}
+
+  <center>  <h2>My unpublished book waiting  for admin review</h2>
+    <table border="10" BORDERCOLORLIGHT=YELLOW BORDERCOLORDARK=BLUE>
+      <tr>
+        <th><center><b>  Cover Photo </b></center></th>
+        <th> <center><b>   Book Title  </b></center></th>
+        <th> <center><b>   ISBN   </b></center></th>
+      </tr>
+       {{if .Books}} {{range .Books}}
+         <tr>
+
+<td> <img src="/uploads/CoverPhoto/{{.Cover}}" height="100" width="100" > </td>
+
+<td> <center> <a href="/update-book?book={{.BookId}}"> <h4>{{.Title}} </h4></a>  </center></td>
+
+
+<td> <center>  <h4>{{.Isbn}} </h4> </center></td>
+
+         </tr>
+       {{end}}
+       {{end}}
+     </table></center>
+{{template "footer"}}
+{{end}}

@@ -1,0 +1,23 @@
+{{define "user-list"}}
+{{template "header"}}
+{{template "nav-auth"}}
+<h1> List Of Users</h1>
+
+<table>
+  {{if .Users}} {{range .Users}}
+    <tr>
+      <td> Name: {{.Name}} </a> </td>
+      <td> Email: {{.Email}}
+      <td> Type: {{.UserType}} </td>
+      <td> User Status : {{.IsActive}} </td>
+      {{if eq .IsActive 0}}
+        <td> <a href="/user-control?userid={{.UserId}}&doblock={{.IsActive}}"> Unblock </a> </td>
+      {{else}}
+        <td> <a href="/user-control?userid={{.UserId}}&doblock={{.IsActive}}"> Block </a> </td>
+      {{end}}
+    </tr>
+  {{end}}
+  {{end}}
+</table>
+  {{template "footer"}}
+  {{end}}
