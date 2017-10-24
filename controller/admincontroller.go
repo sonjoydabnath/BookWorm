@@ -3,9 +3,10 @@ package controller
 import (
 	//"html/template"
 	"log"
-	"github.com/sonjoydabnath/BookWorm/model"
 	"net/http"
 	"strconv"
+
+	"github.com/sonjoydabnath/BookWorm/model"
 	"github.com/sonjoydabnath/BookWorm/view"
 )
 
@@ -61,11 +62,12 @@ func ApproveBook(res http.ResponseWriter, req *http.Request) {
 
 	book_id := req.URL.Query().Get("book")
 
-	//	bid, _ = strconv.Atoi(book_id)
+	uid, _ := strconv.Atoi(userId)
 	bid, _ := strconv.Atoi(book_id)
 	var data model.UData
 	data.Book1 = model.GetBook(bid)
-	if data.Book1.PubId == bid {
+	if data.Book1.PubId == uid {
+		log.Println("Admin can't do this operation on admin's own Book", uid, bid)
 		http.Redirect(res, req, "/un-published-book", 301)
 		return
 	}
@@ -85,7 +87,16 @@ func RejectBook(res http.ResponseWriter, req *http.Request) {
 	}
 	book_id := req.URL.Query().Get("book")
 	log.Println("Book to be rejected is = " + book_id)
+
+	uid, _ := strconv.Atoi(userId)
 	bid, _ := strconv.Atoi(book_id)
+	var data model.UData
+	data.Book1 = model.GetBook(bid)
+	if data.Book1.PubId == uid {
+		log.Println("Admin can't do this operation on admin's own Book", uid, bid)
+		http.Redirect(res, req, "/un-published-book", 301)
+		return
+	}
 	model.PublishBook(bid, 2)
 	http.Redirect(res, req, "/un-published-book", 301)
 }
@@ -99,6 +110,14 @@ func UnpublishBook(res http.ResponseWriter, req *http.Request) {
 	book_id := req.URL.Query().Get("book")
 	log.Println("Book to be unpublished is = " + book_id)
 	bid, _ := strconv.Atoi(book_id)
+	uid, _ := strconv.Atoi(userId)
+	var data model.UData
+	data.Book1 = model.GetBook(bid)
+	if data.Book1.PubId == uid {
+		log.Println("Admin can't do this operation on admin's own Book", uid, bid)
+		http.Redirect(res, req, "/un-published-book", 301)
+		return
+	}
 	model.PublishBook(bid, 0)
 	model.UnSubForAll(bid)
 	http.Redirect(res, req, "/publishedbook", 301)
@@ -112,9 +131,16 @@ func SendNotification(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 	bookId := req.URL.Query().Get("book")
-	var data model.UData
+
+	uid, _ := strconv.Atoi(userId)
 	bid, _ := strconv.Atoi(bookId)
+	var data model.UData
 	data.Book1 = model.GetBook(bid)
+	if data.Book1.PubId == uid {
+		log.Println("Admin can't do this operation on admin's own Book", uid, bid)
+		http.Redirect(res, req, "/un-published-book", 301)
+		return
+	}
 	view.SendNoti(res, req, data)
 }
 
@@ -126,7 +152,16 @@ func PostNotification(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 	bookId := req.URL.Query().Get("book")
+	uid, _ := strconv.Atoi(userId)
 	bid, _ := strconv.Atoi(bookId)
+	var data model.UData
+	data.Book1 = model.GetBook(bid)
+	if data.Book1.PubId == uid {
+		log.Println("Admin can't do this operation on admin's own Book", uid, bid)
+		http.Redirect(res, req, "/un-published-book", 301)
+		return
+	}
+
 	var nd model.Notification
 	nd.BookId = bid
 	nd.AdminNotification = req.FormValue("noti")
