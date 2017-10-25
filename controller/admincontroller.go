@@ -24,7 +24,7 @@ func UnPublishedBook(res http.ResponseWriter, req *http.Request) {
 	userId, userType := getUser(req)
 	log.Println("Admin looking for unpublished book = ", userId, userType)
 	if userType != "admin" {
-		http.Redirect(res, req, "/user-home", 301)
+		http.Redirect(res, req, "/user-home", http.StatusFound)
 		return
 	}
 
@@ -40,7 +40,7 @@ func AdminReviewBook(res http.ResponseWriter, req *http.Request) {
 	userId, userType := getUser(req)
 	log.Println(userId, userType)
 	if userType != "admin" {
-		http.Redirect(res, req, "/user-home", 301)
+		http.Redirect(res, req, "/user-home", http.StatusFound)
 		return
 	}
 	var data model.UData
@@ -56,7 +56,7 @@ func ApproveBook(res http.ResponseWriter, req *http.Request) {
 	userId, userType := getUser(req)
 	log.Println(userId, userType)
 	if userType != "admin" {
-		http.Redirect(res, req, "/user-home", 301)
+		http.Redirect(res, req, "/user-home", http.StatusFound)
 		return
 	}
 
@@ -68,21 +68,21 @@ func ApproveBook(res http.ResponseWriter, req *http.Request) {
 	data.Book1 = model.GetBook(bid)
 	if data.Book1.PubId == uid {
 		log.Println("Admin can't do this operation on admin's own Book", uid, bid)
-		http.Redirect(res, req, "/un-published-book", 301)
+		http.Redirect(res, req, "/un-published-book", http.StatusFound)
 		return
 	}
 	//
 	log.Println("Book to be approved is = " + book_id)
 
 	model.PublishBook(bid, 1)
-	http.Redirect(res, req, "/un-published-book", 301)
+	http.Redirect(res, req, "/un-published-book", http.StatusFound)
 }
 
 func RejectBook(res http.ResponseWriter, req *http.Request) {
 	userId, userType := getUser(req)
 	log.Println(userId, userType)
 	if userType != "admin" {
-		http.Redirect(res, req, "/user-home", 301)
+		http.Redirect(res, req, "/user-home", http.StatusFound)
 		return
 	}
 	book_id := req.URL.Query().Get("book")
@@ -94,17 +94,17 @@ func RejectBook(res http.ResponseWriter, req *http.Request) {
 	data.Book1 = model.GetBook(bid)
 	if data.Book1.PubId == uid {
 		log.Println("Admin can't do this operation on admin's own Book", uid, bid)
-		http.Redirect(res, req, "/un-published-book", 301)
+		http.Redirect(res, req, "/un-published-book", http.StatusFound)
 		return
 	}
 	model.PublishBook(bid, 2)
-	http.Redirect(res, req, "/un-published-book", 301)
+	http.Redirect(res, req, "/un-published-book", http.StatusFound)
 }
 func UnpublishBook(res http.ResponseWriter, req *http.Request) {
 	userId, userType := getUser(req)
 	log.Println(userId, userType)
 	if userType != "admin" {
-		http.Redirect(res, req, "/user-home", 301)
+		http.Redirect(res, req, "/user-home", http.StatusFound)
 		return
 	}
 	book_id := req.URL.Query().Get("book")
@@ -115,19 +115,19 @@ func UnpublishBook(res http.ResponseWriter, req *http.Request) {
 	data.Book1 = model.GetBook(bid)
 	if data.Book1.PubId == uid {
 		log.Println("Admin can't do this operation on admin's own Book", uid, bid)
-		http.Redirect(res, req, "/un-published-book", 301)
+		http.Redirect(res, req, "/un-published-book", http.StatusFound)
 		return
 	}
 	model.PublishBook(bid, 0)
 	model.UnSubForAll(bid)
-	http.Redirect(res, req, "/publishedbook", 301)
+	http.Redirect(res, req, "/publishedbook", http.StatusFound)
 }
 
 func SendNotification(res http.ResponseWriter, req *http.Request) {
 	userId, userType := getUser(req)
 	log.Println(userId, userType)
 	if userType != "admin" {
-		http.Redirect(res, req, "/user-home", 301)
+		http.Redirect(res, req, "/user-home", http.StatusFound)
 		return
 	}
 	bookId := req.URL.Query().Get("book")
@@ -138,7 +138,7 @@ func SendNotification(res http.ResponseWriter, req *http.Request) {
 	data.Book1 = model.GetBook(bid)
 	if data.Book1.PubId == uid {
 		log.Println("Admin can't do this operation on admin's own Book", uid, bid)
-		http.Redirect(res, req, "/un-published-book", 301)
+		http.Redirect(res, req, "/un-published-book", http.StatusFound)
 		return
 	}
 	view.SendNoti(res, req, data)
@@ -148,7 +148,7 @@ func PostNotification(res http.ResponseWriter, req *http.Request) {
 	userId, userType := getUser(req)
 	log.Println(userId, userType)
 	if userType != "admin" {
-		http.Redirect(res, req, "/user-home", 301)
+		http.Redirect(res, req, "/user-home", http.StatusFound)
 		return
 	}
 	bookId := req.URL.Query().Get("book")
@@ -158,7 +158,7 @@ func PostNotification(res http.ResponseWriter, req *http.Request) {
 	data.Book1 = model.GetBook(bid)
 	if data.Book1.PubId == uid {
 		log.Println("Admin can't do this operation on admin's own Book", uid, bid)
-		http.Redirect(res, req, "/un-published-book", 301)
+		http.Redirect(res, req, "/un-published-book", http.StatusFound)
 		return
 	}
 
@@ -166,7 +166,7 @@ func PostNotification(res http.ResponseWriter, req *http.Request) {
 	nd.BookId = bid
 	nd.AdminNotification = req.FormValue("noti")
 	model.SendNotification(nd)
-	http.Redirect(res, req, "/un-published-book", 301)
+	http.Redirect(res, req, "/un-published-book", http.StatusFound)
 }
 
 func UserList(res http.ResponseWriter, req *http.Request) {
@@ -174,7 +174,7 @@ func UserList(res http.ResponseWriter, req *http.Request) {
 	userId, userType := getUser(req)
 	log.Println(userId, userType)
 	if userType != "admin" {
-		http.Redirect(res, req, "/user-home", 301)
+		http.Redirect(res, req, "/user-home", http.StatusFound)
 		return
 	}
 	log.Println("Package : Controller ,Method : UserList  Admin ", userId, " Entered to view user list")
@@ -193,7 +193,7 @@ func UserControl(res http.ResponseWriter, req *http.Request) {
 	userId, userType := getUser(req)
 	log.Println(userId, userType)
 	if userType != "admin" {
-		http.Redirect(res, req, "/user-home", 301)
+		http.Redirect(res, req, "/user-home", http.StatusFound)
 		return
 	}
 	userid := req.URL.Query().Get("userid")
@@ -210,5 +210,5 @@ func UserControl(res http.ResponseWriter, req *http.Request) {
 	}
 
 	model.SetActiveUser(uid, isb)
-	http.Redirect(res, req, "/user-list", 301)
+	http.Redirect(res, req, "/user-list", http.StatusFound)
 }

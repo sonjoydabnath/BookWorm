@@ -86,6 +86,8 @@ var router = mux.NewRouter()
 
 func main() {
 
+	//log.Println(http.StatusFound)
+
 	Config := configs.LoadConfiguration("config.json")
 
 	view.Init()
