@@ -6,10 +6,11 @@ import (
 	"html/template"
 	"io"
 	"log"
-	"github.com/sonjoydabnath/BookWorm/model"
 	"net/http"
 	"os"
 	"strconv"
+
+	"github.com/sonjoydabnath/BookWorm/model"
 	"github.com/sonjoydabnath/BookWorm/view"
 )
 
@@ -18,12 +19,14 @@ func Pr() {
 }
 
 func Home(res http.ResponseWriter, req *http.Request) {
-	userId, userType := getUser(req)
+	log.Println("/")
+	/*userId, userType := getUser(req)
 	log.Println(userId, userType)
 	if userType != "" {
+		log.Println("logged in as ", userId, userType)
 		http.Redirect(res, req, "/user-home", 301)
 		return
-	}
+	}*/
 	var data model.UData
 	view.Home(res, req, data)
 }
@@ -31,7 +34,7 @@ func Home(res http.ResponseWriter, req *http.Request) {
 //var LoggedInUser model.User //set from session
 
 func Login(res http.ResponseWriter, req *http.Request) {
-	clearSession(res)
+	//clearSession(res)
 	log.Println("method login", req.URL.Path, "Method = ", req.Method)
 	var data model.UData
 	log.Println("Logedin user = " + data.User1.Name)
@@ -95,10 +98,13 @@ func Login(res http.ResponseWriter, req *http.Request) {
 	http.Redirect(res, req, "/user-home", 301) // redirect to user home(admin/pub/member)
 }
 
-func Logout(res http.ResponseWriter, req *http.Request) {
+func LogOut(res http.ResponseWriter, req *http.Request) {
+	var data model.UData
+	data.Message = "Logged Out!"
 	clearSession(res)
 	clearSession(res)
-	http.Redirect(res, req, "/", 302)
+	log.Println("Loggng Out!")
+	view.SignOut(res, req, data)
 }
 func UserHome(res http.ResponseWriter, req *http.Request) {
 	var data model.UData

@@ -5,9 +5,10 @@ import (
 	"html/template"
 	"io/ioutil"
 	"log"
-	"github.com/sonjoydabnath/BookWorm/model"
 	"net/http"
 	"strings"
+
+	"github.com/sonjoydabnath/BookWorm/model"
 )
 
 var templates *template.Template
@@ -49,7 +50,8 @@ func Login(res http.ResponseWriter, req *http.Request, data model.UData) {
 
 func SignOut(res http.ResponseWriter, req *http.Request, data interface{}) {
 	log.Println("Log out view! You have been logged out")
-	fmt.Fprint(res, "Logged out!")
+	t := templates.Lookup("home.html")
+	t.ExecuteTemplate(res, "home", data)
 }
 
 func UserHome(res http.ResponseWriter, req *http.Request, data model.UData) {
