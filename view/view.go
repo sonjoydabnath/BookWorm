@@ -131,3 +131,8 @@ func ReadBook(res http.ResponseWriter, req *http.Request, data model.ViewBookDat
 	t := templates.Lookup("read-book.html")
 	t.ExecuteTemplate(res, "read-book", data)
 }
+
+func Show(pageName string, res http.ResponseWriter, req *http.Request, data interface{}) {
+	t := templates.Lookup("base.html")
+	t.ExecuteTemplate(res, pageName, data)
+}

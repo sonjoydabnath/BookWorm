@@ -7,6 +7,16 @@ a platform where readers can read books and publishers can publish their books
 
 This is a web app made with GO
 
+## App feature
+* Readers can join as member to read books online by subscribing to specific books
+* Readers can subscribe at most 3 books at a time
+* Publishers can publish their books online but an admin have to approve to book to be published
+* Admins can reject/unpublish any book if its necessary
+* Admins can also block any specific users if its necessary too
+* More feature yet to come, UI
+----
+NB: UI Needs more development, we are working on that slowly, actually we've just built the backend to see how golang works!
+---
 
 ## Installation
 * Install GO language on your Linux-based machine form [here](https://golang.org/) and set your GOPATH

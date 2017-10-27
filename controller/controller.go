@@ -3,7 +3,6 @@ package controller
 import (
 	"fmt"
 	"html"
-	"html/template"
 	"io"
 	"log"
 	"net/http"
@@ -187,12 +186,13 @@ func SignUp(res http.ResponseWriter, req *http.Request) {
 }
 
 func Contact(res http.ResponseWriter, req *http.Request) {
-	t, _ := template.ParseFiles("HTMLS/contact.html")
-	t.Execute(res, nil)
+	view.Show("contact", res, req, nil)
 }
 func About(res http.ResponseWriter, req *http.Request) {
-	t, _ := template.ParseFiles("HTMLS/about.html")
-	t.Execute(res, nil)
+	view.Show("about", res, req, nil)
+}
+func OurServices(res http.ResponseWriter, req *http.Request) {
+	view.Show("our-services", res, req, nil)
 }
 
 func PublishedBook(res http.ResponseWriter, req *http.Request) {
