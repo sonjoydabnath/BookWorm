@@ -13,6 +13,7 @@ var err error
 
 func DbConnection(config configs.Config) {
 	log.Println("Connecting to Database at " + config.Database.Host + ":" + config.Database.Port)
+	log.Println(config.Database.Username + ":" + config.Database.Password + "@tcp(" + config.Database.Host + ":" + config.Database.Port + ")/" + config.Database.Schema)
 	Db, err = sql.Open("mysql", config.Database.Username+":"+config.Database.Password+"@tcp("+config.Database.Host+":"+config.Database.Port+")/"+config.Database.Schema)
 	if err != nil {
 		log.Println(err)
