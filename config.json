@@ -4,10 +4,10 @@
                 "port": "8080"
         },
         "database": {
-                "schema": "bscmimkq7",
-                "host": "bscmimkq7-mysql.services.clever-cloud.com",
+                "schema": "BookWorm",
+                "host": "localhost",
                 "port": "3306",
-                "username": "utnb3maeexbdkf5j",
-                "password": "2MEcFir8a5HKflfKt3Q"
+                "username": "root",
+                "password": "mysql_root_snj"
         }
 }
