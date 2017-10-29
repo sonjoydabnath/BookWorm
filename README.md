@@ -1,7 +1,8 @@
 # BookWorm
 a platform where readers can read books and publishers can publish their books
 
-![Linux Build Status](https://img.shields.io/travis/jekyll/jekyll/master.svg?label=Linux%20build)
+![Linux Build Status](https://img.shields.io/badge/Linux%20Build-Pass-green.svg)
+![Issues](https://img.shields.io/github/issues/sonjoydabnath/BookWorm.svg)
 
 
 
