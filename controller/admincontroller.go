@@ -49,7 +49,18 @@ func AdminReviewBook(res http.ResponseWriter, req *http.Request) {
 	bid, _ := strconv.Atoi(book_id)
 	book := model.GetBook(bid)
 	data.Book1 = book
-	view.AdminReviewBook(res, req, data)
+	if req.Method == http.MethodGet {
+		view.AdminReviewBook(res, req, data)
+		return
+	}
+
+	//POST method
+	read := req.FormValue("read")
+	if read == "read" {
+		//redirect to reading page
+		http.Redirect(res, req, "/uploads/Pdf/"+book_id+".pdf", http.StatusFound)
+		return
+	}
 }
 
 func ApproveBook(res http.ResponseWriter, req *http.Request) {

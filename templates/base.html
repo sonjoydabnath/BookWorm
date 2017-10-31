@@ -1,0 +1,44 @@
+{{define "about"}}
+{{template "header"}}
+{{ if eq .User1.UserId 0 }}
+{{template "nav-anon"}}
+{{ else }}
+{{template "nav-auth"}}
+{{end}}
+
+        <h3> We are banch of coders who love Go</h3>
+        <p> We started this project just to see how golang web works, and I found its pretty cool!</p>
+
+{{template "footer"}}
+{{end}}
+
+
+{{define "contact"}}
+{{template "header"}}
+{{ if eq .User1.UserId 0 }} {{template "nav-anon"}}
+{{ else }} {{template "nav-auth"}} {{end}}
+
+<h3> Contact Us</h3>
+<p> if you have any query, mail us @ <a href="mailto:sonjoydabnath009@gmail.com">sonjoydabnath009@gmail.com</a> !</p>
+
+{{template "footer"}}
+{{end}}
+
+
+
+{{define "our-services"}}
+{{template "header"}}
+{{ if eq .User1.UserId 0 }} {{template "nav-anon"}}
+{{ else }} {{template "nav-auth"}} {{end}}
+
+ <h3>Our Services</h3>
+ <p>Want to read books online? well you can join as a member to read. Or, maybe you want to publish a book join as a publisher</p>
+ <b>We provide</b> <br>
+ <ul>
+         <li>Platform for publisher to publush</li>
+         <li>Platform for reader to read books</li>
+ </ul>
+
+
+{{template "footer"}}
+{{end}}

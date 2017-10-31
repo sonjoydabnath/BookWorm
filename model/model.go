@@ -3,8 +3,9 @@ package model
 import (
 	"fmt"
 	"log"
-	"github.com/sonjoydabnath/BookWorm/model/dbcon"
 	"strconv"
+
+	"github.com/sonjoydabnath/BookWorm/model/dbcon"
 )
 
 func SetUser(user User) {
@@ -204,23 +205,23 @@ func PublishBook(bookId int, isPub int) {
 	dbcon.Db.Exec("UPDATE Book SET is_published=? WHERE book_id=?", isPub, bookId)
 }
 
-func SubScripeBook(bookid int, userid int) {
+func SubScripeBook(bookid int, userid int) int {
 
 	var cnt int
 	dbcon.Db.QueryRow("SELECT COUNT(*) FROM subscription WHERE book_id=? AND user_id=?", bookid, userid).Scan(&cnt)
 	if cnt != 0 {
 		log.Println("Method : SubScripeBook, Already exist connection between book_id : ", bookid, " and user_id : ", userid)
-
-		return
+		return 2
 	}
 	log.Println("Method : SubScripeBook, ", userid, " want to subscribe book, ", bookid)
 
 	dbcon.Db.QueryRow("SELECT COUNT(*) FROM subscription WHERE  user_id=?", userid).Scan(&cnt)
 	if cnt >= 3 {
 		fmt.Println("Already subscribed for 3 books")
-		return
+		return 3
 	}
 	dbcon.Db.Exec("INSERT INTO subscription (book_id, user_id) VALUES (?,?)", bookid, userid)
+	return 1
 
 }
 

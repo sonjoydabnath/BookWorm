@@ -79,4 +79,5 @@ type ViewBookData struct {
 	Read, Sub, Unsub, Unpub int //buttons active/inactive control
 	Book1                   BookP
 	RatRev                  []RatingReview
+	Message                 string
 }

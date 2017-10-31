@@ -21,7 +21,8 @@
   </table>
   </br>
 
-    <form action = "/read-and-approve?book={{.Book1.BookId}}" method = POST>
+    <form action = "/admin-review-book?book={{.Book1.BookId}}" method = POST>
+            <input type="hidden" name="read" value="read">
         <input type = submit name = "Read" value = "Read" class="btn btn-default">
     </form>
     </br>

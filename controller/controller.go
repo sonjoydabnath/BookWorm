@@ -11,6 +11,7 @@ import (
 
 	"github.com/sonjoydabnath/BookWorm/model"
 	"github.com/sonjoydabnath/BookWorm/view"
+	"golang.org/x/crypto/bcrypt"
 )
 
 func Pr() {
@@ -30,10 +31,7 @@ func Home(res http.ResponseWriter, req *http.Request) {
 	view.Home(res, req, data)
 }
 
-//var LoggedInUser model.User //set from session
-
 func Login(res http.ResponseWriter, req *http.Request) {
-	//clearSession(res)
 	log.Println("method login", req.URL.Path, "Method = ", req.Method)
 	var data model.UData
 	log.Println("Logedin user = " + data.User1.Name)
@@ -60,7 +58,7 @@ func Login(res http.ResponseWriter, req *http.Request) {
 	req.ParseForm()
 	email := html.EscapeString(req.FormValue("email"))
 	password := html.EscapeString(req.FormValue("password"))
-	log.Println("User Login Attempt by: ", email, " ", password)
+	log.Println("User Login Attempt by: ", email)
 	var user model.User
 	user = model.GetUser(email)
 
@@ -70,12 +68,19 @@ func Login(res http.ResponseWriter, req *http.Request) {
 		view.Login(res, req, data)
 		return
 	}
-	if user.Password != password {
+	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil {
 		log.Println("Password does not match")
 		data.Message = "Incorrect Password!!"
 		view.Login(res, req, data)
 		return
 	}
+	/*	if user.Password != password {
+			log.Println("Password does not match")
+			data.Message = "Incorrect Password!!"
+			view.Login(res, req, data)
+			return
+		}
+	*/
 
 	//if user is blocked redirect him
 	if user.IsActive == 0 {
@@ -174,6 +179,16 @@ func SignUp(res http.ResponseWriter, req *http.Request) {
 		view.SignUp(res, req, data)
 		return
 	}
+
+	hashedPass, err := bcrypt.GenerateFromPassword([]byte(password1), bcrypt.DefaultCost)
+	if err != nil {
+		log.Println("Password encription error", err)
+		data.Message = "Password too short or may be invalid character included!"
+		view.SignUp(res, req, data)
+		return
+	}
+	password1 = string(hashedPass)
+	log.Println(password1)
 	//generating unique user id
 	var user_id int
 	user_id = model.GenerateID(1)
@@ -186,13 +201,25 @@ func SignUp(res http.ResponseWriter, req *http.Request) {
 }
 
 func Contact(res http.ResponseWriter, req *http.Request) {
-	view.Show("contact", res, req, nil)
+	userId, _ := getUser(req)
+	var data model.UData
+	uid, _ := strconv.Atoi(userId)
+	data.User1.UserId = uid
+	view.Show("contact", res, req, data)
 }
 func About(res http.ResponseWriter, req *http.Request) {
-	view.Show("about", res, req, nil)
+	userId, _ := getUser(req)
+	var data model.UData
+	uid, _ := strconv.Atoi(userId)
+	data.User1.UserId = uid
+	view.Show("about", res, req, data)
 }
 func OurServices(res http.ResponseWriter, req *http.Request) {
-	view.Show("our-services", res, req, nil)
+	userId, _ := getUser(req)
+	var data model.UData
+	uid, _ := strconv.Atoi(userId)
+	data.User1.UserId = uid
+	view.Show("our-services", res, req, data)
 }
 
 func PublishedBook(res http.ResponseWriter, req *http.Request) {
@@ -556,7 +583,7 @@ func ViewBook(res http.ResponseWriter, req *http.Request) {
 	//GET method handle
 	if req.Method == http.MethodGet {
 		data.RatRev = model.GetRatingReview(bid)
-		log.Println("GET -> Rating Review = ", data.RatRev)
+		//log.Println("GET -> Rating Review = ", data.RatRev)
 		//log.Println(data.RatRev)
 		view.ViewBook(res, req, data)
 		return
@@ -583,10 +610,18 @@ func ViewBook(res http.ResponseWriter, req *http.Request) {
 		}
 	} else if userType == "publisher" {
 		if sub == "sub" {
-			model.SubScripeBook(bid, uid)
-			data.Sub = 0
-			data.Unsub = 1
-			data.Read = 1
+			s := model.SubScripeBook(bid, uid)
+			if s == 1 {
+				data.Sub = 0
+				data.Unsub = 1
+				data.Read = 1
+			} else if s == 2 {
+				data.Message = "You have already subscribed to this book!"
+				data.Read = 1
+				data.Unsub = 1
+			} else if s == 3 {
+				data.Message = "You have already subscribed three books, You cant subscribe this book now!"
+			}
 		} else if unsub == "unsub" {
 			model.UnsubscribeBook(bid, uid)
 			data.Unsub = 0
@@ -599,10 +634,18 @@ func ViewBook(res http.ResponseWriter, req *http.Request) {
 		}
 	} else if userType == "member" {
 		if sub == "sub" {
-			model.SubScripeBook(bid, uid)
-			data.Sub = 0
-			data.Unsub = 1
-			data.Read = 1
+			s := model.SubScripeBook(bid, uid)
+			if s == 1 {
+				data.Sub = 0
+				data.Unsub = 1
+				data.Read = 1
+			} else if s == 2 {
+				data.Message = "You have already subscribed to this book!"
+				data.Read = 1
+				data.Unsub = 1
+			} else if s == 3 {
+				data.Message = "You have already subscribed three books, You cant subscribe this book now!"
+			}
 		} else if unsub == "unsub" {
 			model.UnsubscribeBook(bid, uid)
 			data.Unsub = 0

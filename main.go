@@ -23,6 +23,7 @@ func HtmlHandlerMux() {
 	router.HandleFunc("/signup", controller.SignUp)
 	router.HandleFunc("/about", controller.About)
 	router.HandleFunc("/contact", controller.Contact)
+	router.HandleFunc("/our-services", controller.OurServices)
 	router.HandleFunc("/user-home", controller.UserHome)
 	router.HandleFunc("/my-un-published-book", controller.MyUnPublishedBook)
 	router.HandleFunc("/publish-new-book", controller.PublishNewBook)
