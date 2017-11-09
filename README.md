@@ -24,7 +24,7 @@ NB: UI Needs more development, we are working on that slowly. Actually we've jus
 * From terminal enter `go get github.com/sonjoydabnath/BookWorm`
 * Now enter `cd $GOPATH/src/github.com/sonjoydabnath/BookWorm`
 * Edit the `config.json` file with your `host`, `port`, `database.host`, `database.port` `database.schema` `database.username`, `database.password`
-* Now run the `backup.sql` in you MySQL Workbench to create the full database
+* Now run the `backup.sql` to create the full database
 * Finally From terminal enter `go run main.go` and go to browser
 -----
 
