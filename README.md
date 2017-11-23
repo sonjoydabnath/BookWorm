@@ -1,4 +1,6 @@
 # BookWorm
+
+[![Join the chat at https://gitter.im/book-worm-go/Lobby](https://badges.gitter.im/book-worm-go/Lobby.svg)](https://gitter.im/book-worm-go/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 a platform where readers can read books and publishers can publish their books
 
 ![Linux Build Status](https://img.shields.io/badge/Linux%20Build-Pass-green.svg)
