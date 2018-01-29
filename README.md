@@ -3,6 +3,7 @@ a platform where readers can read books and publishers can publish their books
 
 ![Linux Build Status](https://img.shields.io/badge/Linux%20Build-Pass-green.svg)
 ![Issues](https://img.shields.io/github/issues/sonjoydabnath/BookWorm.svg)
+[![Open Source Helpers](https://www.codetriage.com/sonjoydabnath/bookworm/badges/users.svg)](https://www.codetriage.com/sonjoydabnath/bookworm)
 
 
 
